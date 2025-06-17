@@ -1,5 +1,5 @@
-import express from 'express';
-import Feedback from '../models/Feedback.js';
+const express = require('express');
+const Feedback = require('../models/Feedback');
 
 const router = express.Router();
 
@@ -24,4 +24,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

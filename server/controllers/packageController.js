@@ -3,10 +3,25 @@ const Package = require('../models/Package');
 // Get all packages
 exports.getAllPackages = async (req, res) => {
   try {
-    const packages = await Package.find().sort({ createdAt: -1 });
-    res.json(packages);
+    const { page = 1, limit = 10, sort = '-createdAt' } = req.query;
+    const packages = await Package.find()
+      .sort(sort)
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+    
+    const count = await Package.countDocuments();
+    
+    res.json({
+      packages,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    });
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({
+      status: 'error',
+      message: 'Error fetching packages',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 };
 

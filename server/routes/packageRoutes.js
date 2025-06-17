@@ -7,7 +7,8 @@ const {
   updatePackage,
   deletePackage,
 } = require('../controllers/packageController');
-const auth = require('../middleware/authMiddleware');
+const { auth } = require('../middleware/authMiddleware');
+
 
 // Public Routes
 router.get('/', getAllPackages);
